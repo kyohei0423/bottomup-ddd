@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  backend:
+    build:
+      context: .
+      target: build
+    ports:
+      - "8090:8080"
+    volumes:
+      - .:/go/src/github.com/kyohei0423/buppan-api
+    command: ["fresh"]
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:5.7.29
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: buppan_development
+volumes:
+  mysql_data:
